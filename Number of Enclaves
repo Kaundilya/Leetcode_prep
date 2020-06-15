@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int numEnclaves(vector<vector<int>>& A) {
+       int row=A.size();
+        int col=A[0].size();
+        for(int i=0;i<row;i++)
+        {
+            if(A[i][0]==1)
+                dfs(A,i,0);
+            if(A[i][col-1]==1)
+                dfs(A,i,col-1);
+        }
+        
+        for(int j=1;j<col-1;j++)
+        {
+            if(A[0][j]==1)
+                dfs(A,0,j);
+            if(A[row-1][j]==1)
+                dfs(A,row-1,j);
+        }
+        int cnt=0;
+        for(int i=1;i<row-1;i++)
+        {
+            for(int j=1;j<col-1;j++)
+            {
+                if(A[i][j]==1)
+                    cnt++;
+            }
+        }
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+                cout<<A[i][j]<<" ";
+            cout<<endl;
+        }
+        return cnt;
+    }
+    
+    void dfs(vector<vector<int>>& A,int i,int j)
+    {
+        int row=A.size();
+        int col=A[0].size();
+        if(i<0  || i>row || j<0 || j>col)
+            return;
+         
+         
+             A[i][j]=0;
+        if(i>0 && A[i-1][j]==1)
+            dfs(A,i-1,j);
+        if(i<row-1 && A[i+1][j]==1)
+            dfs(A,i+1,j);
+        if(j>0 && A[i][j-1]==1)
+            dfs(A,i,j-1);
+        if(j<col-1 && A[i][j+1]==1)
+            dfs(A,i,j+1);
+        
+        
+    }
+};
