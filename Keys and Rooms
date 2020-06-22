@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+      unordered_set<int>seen={0};
+        stack<int>s;
+        s.push(0);
+        while(!s.empty())
+        {
+            int i=s.top();
+            s.pop();
+            for(int j:rooms[i])
+            {
+                if(seen.count(j)==0)
+                {
+                    s.push(j);
+                    seen.insert(j);
+                }
+                if(seen.size()==rooms.size())
+                    return true;
+            }
+        }
+        return seen.size()==rooms.size();
+    }
+};
