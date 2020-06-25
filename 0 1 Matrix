@@ -1,0 +1,58 @@
+class Solution {
+public:
+    bool issafe(vector<vector<int>>& matrix,int i,int j)
+    {
+        int n=matrix.size();
+        int m=matrix[0].size();
+  return (i >= 0 && i < n) &&(j >= 0 && j < m) && (matrix[i][j] == 1 || matrix[i][j] == 0);
+    }
+    int bfs(vector<vector<int>>& matrix,int x,int y)
+    {
+        queue<pair<int,int>> q;
+        q.push({x,y});
+        int res=0;
+        while(!q.empty())
+        {
+            int sizeq=q.size();
+            while(sizeq--)
+            {
+                auto t=q.front();
+                q.pop();
+                int x=t.first;
+                int y=t.second;
+                if(matrix[x][y]==0)
+                    return res;
+                else
+                {
+                    if(issafe(matrix,x,y+1))
+                        q.push({x,y+1});
+                    if(issafe(matrix,x+1,y))
+                        q.push({x+1,y});
+                    if(issafe(matrix,x-1,y))
+                        q.push({x-1,y});
+                    if(issafe(matrix,x,y-1))
+                        q.push({x,y-1});
+                }   
+            }
+            res++;   
+        }
+        return res;
+        
+    }
+    vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        int row=matrix.size();
+        int col=matrix[0].size();
+        vector<vector<int>>res=matrix;
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {
+                if(res[i][j]==0)
+                    continue;
+                else
+                    res[i][j]=bfs(matrix,i,j);
+            }
+        }
+        return res;
+    }
+};
