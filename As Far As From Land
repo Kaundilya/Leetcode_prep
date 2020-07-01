@@ -1,0 +1,65 @@
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        int res=-1;
+        if (grid.empty() || grid[0].empty())
+        {
+            return res;
+        }
+        
+        int row=grid.size();
+        int col=grid[0].size();
+        queue<pair<int,int>>q;
+        vector<vector<int>>dp(row,vector<int>(col,INT_MAX));
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    q.push({i,j});
+                    dp[i][j]=0;
+                }
+            }
+        }
+        if(q.empty())
+            return -1;
+            
+        vector<int>dx({0,1,0,-1});
+        vector<int>dy({1,0,-1,0});
+        
+        
+        while(!q.empty())
+        {
+            auto pos=q.front();
+            q.pop();
+            
+            for(int i=0;i<4;i++)
+            {
+                int x=dx[i]+pos.first;
+                int y=dy[i]+pos.second;
+                
+                if (x >= 0 && x < grid.size() && y >= 0 && y < grid[0].size())
+                {
+                    if (dp[x][y] == INT_MAX)
+                    {
+                        q.push(make_pair(x, y));
+                    }
+                    
+					// Step 2: The current cell should be updated to the distance to nearest land cell. 
+                    dp[x][y] = min(dp[x][y], dp[pos.first][pos.second] + 1);
+        }
+            }}
+        for (int i = 0; i < grid.size(); ++i)
+        {
+            for (int j = 0; j < grid[0].size(); ++j)
+            {
+                if (grid[i][j] == 0)
+                {
+                    res = max(res, dp[i][j]);
+                }
+            }
+        }
+        return res;
+    }
+};
