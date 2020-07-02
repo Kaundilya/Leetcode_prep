@@ -16,7 +16,7 @@ public:
                 if(grid[i][j]==2)
                 {
                     q.push({i,j});
-                    grid[i][j]=2;
+                    
                 }
                     if(grid[i][j]==1)
                         cnt++;
